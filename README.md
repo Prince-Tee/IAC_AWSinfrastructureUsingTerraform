@@ -538,7 +538,7 @@ terraform show
 
 Now This is the result from our Aws console point of view
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/saws%20console%20finale.PNG)
 
 Conclusion
 Project Achievements
