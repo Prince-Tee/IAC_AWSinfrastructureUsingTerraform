@@ -14,17 +14,18 @@ Ensure you have the following installed on your computer:
 ✅ **Terraform**: Download and install from [Terraform official website](https://developer.hashicorp.com/terraform/downloads). 
 
 To download Terraform I used the the chocolatey on Windows option as downloading the zip did not work for me. find screenshots below
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/download%20terraform.PNG)
+
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/verify%20terraform%20installation.PNG)
 
 ✅ **AWS CLI**: Install it by following [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html). 
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/installing%20AWS%20CLI.PNG)
 
 ✅ **Python & Boto3**: Install Python (if not installed) and use `pip install boto3` to install Boto3.  
 I already have python installed so I will go ahead and install boto
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/python%20version.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/installing%20boto.PNG)
 
 ✅ **Visual Studio Code (VS Code)**: A code editor where you'll write Terraform scripts.  
 Click on this website to download ![Download vscode](https://code.visualstudio.com/docs/setup/windows)
@@ -42,29 +43,29 @@ Click on this website to download ![Download vscode](https://code.visualstudio.c
 ### **2. Create a New User**  
 1. **User Name**: `terraform`  
 2. **Access Type**: Check **Programmatic access**.  
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20iam%20in%20aws.PNG)
 
 ### **3. Set Permissions**  
 1. Choose **Attach policies directly**.  
 2. Search for `AdministratorAccess` and attach it.  
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20iam%20in%20aws1.PNG)
 
 3. Click **Next**, then **Create user**.  
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20iam%20in%20aws2.PNG)
 
 ### Create Access Keys:
 
 After user creation, create access keys
 Store these securely - they will be used for AWS CLI configuration
 
-(screenshot)
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20access.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20access1.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20access2.PNG)
 
 ### **4. Copy Access Keys**  
 1. Copy the **Access Key ID** and **Secret Access Key** and save them in a Notepad (you’ll use them later). 
-(screenshot) 
+![(screenshot) ](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20access3.PNG)
 
 ### Security Best Practices:
 
@@ -85,7 +86,7 @@ Enter the following when prompted:
 - **AWS Secret Access Key**: (paste the key)  
 - **Region**: `us-east-1` (or any region closest to you)  
 - **Output format**: `json`  
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/configure%20aws%20cli%20on%20git%20bash.PNG)
 
 To verify, run:
 ```bash
@@ -94,7 +95,7 @@ aws s3 ls
 If it returns a list of buckets or no errors, your AWS CLI is correctly configured.
 
 ---
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/configure%20aws%20cli%20on%20git%20bash1.PNG)
 
 ## **Step 5: Create an S3 Bucket for Terraform State File**  
 Terraform keeps track of infrastructure changes in a **state file**. To store it securely, create an S3 bucket.  
@@ -109,7 +110,7 @@ Terraform keeps track of infrastructure changes in a **state file**. To store it
    ```
 
 ---
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/creating%20s3%20bucket.PNG)
 
 ## **Step 6: Verify AWS Connection with Python Boto3**  
 Open **Python (or VS Code terminal)** and run:  
@@ -122,7 +123,7 @@ for bucket in s3.buckets.all():
 If it prints your S3 bucket name, you're good to go.
 
 ---
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/Verify%20AWS%20Connection%20with%20Python%20Boto3.PNG)
 
 ### ⚠️ S3 Backend Considerations:
 
@@ -138,7 +139,7 @@ Implement appropriate bucket policies
 3. Inside `PBL`, create a file **main.tf**.  
 
 ---
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/Create%20folder%20PBL%20and%20main%20tf.PNG)
 
 Make sure to also download Terraform and AWS extension that are compatible with VSCODE
 
@@ -156,7 +157,7 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 }
 ```
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/AWS%20Provider%20and%20VPC.PNG)
 ✅ **Explanation**:  
 - `provider "aws"` tells Terraform we are working with AWS.  
 - `aws_vpc` creates a **Virtual Private Cloud (VPC)**, which is like a private network for your AWS resources.  
@@ -172,14 +173,14 @@ This downloads necessary Terraform plugins.
 
 ---
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20innit.PNG)
 
 ### **3. Plan and Apply Infrastructure**  
 1. Run to see what Terraform will create:  
    ```bash
    terraform plan
    ```
-   (screenshot)
+   ![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20plan.PNG)
 2. Apply the changes:  
    ```bash
    terraform apply
@@ -188,7 +189,7 @@ This downloads necessary Terraform plugins.
 3. Type `yes` to confirm.  
 
 ---
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20apply.PNG)
  
 We need to **create six subnets** inside our **VPC (Virtual Private Cloud)**:  
 ✅ **2 public subnets** (for resources that need internet access).  
@@ -220,7 +221,7 @@ resource "aws_subnet" "public2" {
   availability_zone       = "eu-central-1b"
 }
 ```
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/public%20subnets.PNG)
 🔹 **Explanation:**  
 - Each `aws_subnet` resource **creates a subnet** inside the VPC.  
 - `cidr_block` defines **the IP range** assigned to each subnet.  
@@ -243,6 +244,7 @@ resource "aws_subnet" "private_web2" {
   availability_zone = "eu-central-1b"
 }
 ```
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/private%20subnets.PNG)
 🔹 **Explanation:**  
 - These **do not** have `map_public_ip_on_launch = true` because web servers are private.  
 - They are located in **different availability zones** for **high availability**.  
@@ -264,6 +266,7 @@ resource "aws_subnet" "private_db2" {
   availability_zone = "eu-central-1b"
 }
 ```
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/database%20subnets.PNG)
 🔹 **Explanation:**  
 - These are meant for **databases** like MySQL or PostgreSQL.  
 - They are kept **private for security** (databases should not be exposed to the internet).  
@@ -297,16 +300,16 @@ Terraform will ask for confirmation. Type **`yes`** and press **Enter**.
 
 ---
 
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/our%20subnet%20created%20in%20vs%20code.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/the%20subnets%20in%20aws%20console.PNG)
 
 ### step 11 VPC and Networking Configuration (SoftCoded - Introducing Variable - VERSION)
 Now, we will run terraform destroy to remove all the resources we have created in our aws account through terraform so that we can redo it, this time around, in a more flexible, dynamic way.
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20destroy.PNG)
 
 Create a file called variables.tf, in this file is where we will declare our variables to use in the main.tf file. We could declare these variables in the main.tf file, but for the sake of making our work orderly and easy to read, we are separating the files for their respective purpose.
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/variable%20tf%20created.PNG)
 
 Variable Definition:
 
@@ -342,12 +345,12 @@ variable "vpc_tags"{
  }
 }
 ```
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/content%20od%20variable%20tf.PNG)
 
 #### Explicit variable Definitions
 
 Create another file called terraform.tfvars
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/create%20terraform%20tfvars.PNG)
 
 This file sets actual values for the variables declared in variables.tf. It's used to:
 
@@ -370,7 +373,7 @@ vpc_tags = {
    Project = "PBL"
 }
 ```
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/content%20terraform%20tfvars.PNG)
 
 #### Main Configuration Updates 
 
@@ -413,6 +416,7 @@ resource "aws_subnet" "public" {
   availability_zone       = data.aws_availability_zones.available.names[count.index]
 }
 ```
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/content%20of%20main%20tf.PNG)
 
 At the end, our file structure should look somewhat like this:
 
@@ -423,7 +427,7 @@ PBL/
 ├── terraform.tfvars  # Variable values
 ```
 
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/structure%20of%20our%20terraform%20project.PNG)
 
 #### Understanding the Dynamic Subnet Creation
 Let us break down the subnet configuration:
@@ -521,16 +525,16 @@ Apply Configuration:
 ```
 terraform apply
 ```
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/tearraform%20validate%20and%20plan.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terrafrom%20apply%20last.PNG)
 
 ##### Verify Resources:
 run thr below
 ```
 terraform show
 ```
-(screenshot)
-(screenshot)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20show.PNG)
+![(screenshot)](https://github.com/Prince-Tee/IAC_AWSinfrastructureUsingTerraform/blob/main/Screenshot%20from%20my%20env/terraform%20show1.PNG)
 
 Now This is the result from our Aws console point of view
 
