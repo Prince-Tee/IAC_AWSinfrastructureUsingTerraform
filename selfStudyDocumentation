@@ -1,0 +1,219 @@
+# Automating AWS Infrastructure Using Terraform
+
+## Overview
+After successfully building AWS infrastructure manually for two websites, we will now automate the entire process using Terraform. This automation ensures **consistency, repeatability, and easier maintenance** of our infrastructure.
+
+---
+
+## Step 1: Understanding the Goal
+The objective is to **automate AWS infrastructure creation** using Terraform, an **Infrastructure as Code (IaC)** tool. Instead of manually creating resources in AWS (like a VPC, subnets, and security groups), we will **write Terraform code** to automate the process.
+
+---
+
+## Step 2: Set Up Your Work Environment
+
+### 1. Install Required Tools
+Ensure you have the following installed:
+
+- **Terraform**: Download from [Terraform official website](https://developer.hashicorp.com/terraform/downloads).
+- **AWS CLI**: Install following [AWS CLI installation guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html).
+- **Python & Boto3**: Install Python (if not installed) and use `pip install boto3`.
+- **Visual Studio Code (VS Code)**: A code editor to write Terraform scripts.
+
+---
+
+## Step 3: Create AWS IAM User for Terraform
+
+### 1. Log into AWS Console
+- Go to [AWS Console](https://aws.amazon.com/console/)
+- Search for **IAM (Identity & Access Management)**
+- Click **Users > Add users**
+
+### 2. Create a New IAM User
+- **User Name**: `terraform`
+- **Access Type**: Check **Programmatic access**
+
+### 3. Set Permissions
+- Attach the policy **AdministratorAccess**
+- Click **Next**, then **Create user**
+
+### 4. Copy Access Keys
+- Save **Access Key ID** and **Secret Access Key** securely (needed for AWS CLI setup)
+
+---
+
+## Step 4: Configure AWS CLI
+Open your terminal and run:
+
+```bash
+aws configure
+```
+
+Enter the following:
+- **AWS Access Key ID**: (from IAM setup)
+- **AWS Secret Access Key**: (from IAM setup)
+- **Region**: `us-east-1` (or your preferred region)
+- **Output format**: `json`
+
+Verify setup by running:
+
+```bash
+aws s3 ls
+```
+
+---
+
+## Step 5: Create an S3 Bucket for Terraform State File
+Terraform keeps track of changes using a **state file**. To store it securely:
+
+```bash
+aws s3 mb s3://yourname-dev-terraform-bucket
+```
+
+Verify the bucket:
+
+```bash
+aws s3 ls
+```
+
+---
+
+## Step 6: Verify AWS Connection with Python Boto3
+Run the following Python script:
+
+```python
+import boto3
+s3 = boto3.resource('s3')
+for bucket in s3.buckets.all():
+    print(bucket.name)
+```
+
+If it prints your S3 bucket name, your AWS access is correctly configured.
+
+---
+
+## Step 7: Set Up Terraform Project
+1. Open **VS Code**
+2. Create a new folder **PBL**
+3. Inside **PBL**, create a file **main.tf**
+
+---
+
+## Step 8: Write Terraform Code
+
+### Define the AWS Provider and VPC in `main.tf`
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_vpc" "main" {
+  cidr_block           = "172.16.0.0/16"
+  enable_dns_support   = true
+  enable_dns_hostnames = true
+}
+```
+
+### Initialize Terraform
+Run:
+```bash
+terraform init
+```
+
+### Plan and Apply Infrastructure
+```bash
+terraform plan
+terraform apply
+```
+Type **yes** to confirm.
+
+---
+
+## Step 9: Define Subnets in Terraform
+We need to create **six subnets**:
+✅ **2 public subnets** (for internet access)  
+✅ **2 private subnets for web servers** (internal use, no direct internet access)  
+✅ **2 private subnets for databases** (secure, no direct internet access)  
+
+```hcl
+# Create Public Subnets
+resource "aws_subnet" "public1" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "172.16.0.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1a"
+}
+
+resource "aws_subnet" "public2" {
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "172.16.1.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "us-east-1b"
+}
+```
+
+```hcl
+# Private Subnets for Web Servers
+resource "aws_subnet" "private_web1" {
+  vpc_id           = aws_vpc.main.id
+  cidr_block       = "172.16.2.0/24"
+  availability_zone = "us-east-1a"
+}
+
+resource "aws_subnet" "private_web2" {
+  vpc_id           = aws_vpc.main.id
+  cidr_block       = "172.16.3.0/24"
+  availability_zone = "us-east-1b"
+}
+```
+
+---
+
+## Step 10: Run Terraform Commands
+
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+Type **yes** to confirm.
+
+---
+
+## Step 11: Refactor with Variables
+Create **variables.tf**:
+
+```hcl
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "vpc_cidr" {
+  default = "172.16.0.0/16"
+}
+```
+
+Create **terraform.tfvars**:
+```hcl
+region = "us-east-1"
+vpc_cidr = "172.16.0.0/16"
+```
+
+Update **main.tf** to reference variables:
+```hcl
+provider "aws" {
+  region = var.region
+}
+
+resource "aws_vpc" "main" {
+  cidr_block = var.vpc_cidr
+}
+```
+
+Run:
+```bash
+terraform destroy
+terraform apply
+```
+
+---
